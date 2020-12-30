@@ -69,12 +69,20 @@ public class TwoWayLinkedList<T> implements Iterable<T> {
     }
 
     public T remove(int index) {
-        chekIndex(index);
-        Node<T> removedNode = getNodeByIndex(index);
-        if (remove(removedNode.value)) {
-            --size;
-            return removedNode.value;
-        } else return null;
+        if (size == 0) return null;
+        Node<T> current = getNodeByIndex(index);
+        if (index == 0) {
+            current.next.prev = null;
+            head = current.next;
+        } else if (index == size - 1) {
+            current.prev.next = null;
+            tail = current.prev;
+        } else {
+            current.next.prev = current.prev;
+            current.prev.next = current.next;
+        }
+        --size;
+        return current.value;
     }
 
     @Override
